@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiógombok</title>
+    <style>
+        body{
+            background-color: #ae2012;
+        }
+    </style>
+</head>
+<body>
+    <form >
+        <ol id="quiz"></ol>
+
+        <input type="button" value="ellenőrzés" onclick="verify()">
+    </form>
+
+    <script src="data1.js"></script>
+    <script>
+        
+        let quiz=document.getElementById('quiz')
+        for( let obj of kerdesek){
+            console.log('helyes:',obj.correctAnswer)
+            console.log(obj.answers)
+            quiz.innerHTML+=`<li >${obj.question}<br> ${createRadios(obj.answers,obj.correctAnswer,obj.id)}</li>
+                            <img class="d-none" src="${obj.image}" id="${obj.id}" style="width:300px;height:300px;">`
+        }
+
+        function createRadios(o,h,id){
+            let str=''
+            for(let kulcs in o){
+                str+=`<input type="radio" name="${id}" value="${kulcs}" data-ok="${h}"/> ${o[kulcs]}<br>`
+            }
+            return str
+        }
+
+        function verify(){
+            let szamlalo = 0
+            console.log('következik a helyes válaszok elbírálása:')
+            let inputRadioArr=document.querySelectorAll('input[type=radio]')
+            for(let obj of inputRadioArr){
+                console.log(obj)
+                if(obj.checked){
+                    if(obj.dataset.ok==obj.value){
+                        obj.style.accentColor="green"
+                        szamlalo++
+                        console.log(obj.name,"img")
+                        document.getElementById(obj.name).classList.remove('d-none')
+                    }else
+                        obj.style.accentColor="red"
+                }
+
+            }
+            if(szamlalo == kerdesek.length){
+                alert('Gratulálunk!')
+                
+            }else{
+                alert('Sajnos nem sikerült...')
+            }
+        }
+    </script>
+</body>
+</html>
