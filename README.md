@@ -1,3 +1,3 @@
 # Quiz
 - json fájl beolvasása
--programozott oldal renderelés
+- programozott oldal renderelés
